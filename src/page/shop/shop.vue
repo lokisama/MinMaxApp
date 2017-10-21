@@ -756,9 +756,9 @@
             bottom:-0.5rem;
             left:1rem;
             img{
-                @include wh(2.2rem, 2.2rem);
+                @include wh(2.6rem, 2.6rem);
                 display: block;
-                border-radius: 2.2rem;
+                border-radius: 2.6rem;
                 box-shadow: 0px 4px 10px #ffe0b9;
             }
         }
@@ -780,7 +780,7 @@
                         @include sc(.8rem, #fff);
                         width: 100%;
                         margin-top: 4rem;
-                        margin-left:3.6rem;
+                        margin-left:4.2rem;
                         font-weight: bold;
                     }
                     .description_text{
@@ -958,7 +958,7 @@
                         @include sc(.7rem, #46484E);
                         width: 30%;
                         overflow: hidden;
-                        margin-left: 1.5rem;
+                        margin-left: 1.8rem;
                     }
                 }
                 .menu_detail_header_right{
