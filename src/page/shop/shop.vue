@@ -10,29 +10,17 @@
                 <img :src="imgBaseUrl + shopDetailData.image_path" class="header_cover_img">
                 <section class="description_header">
                     <router-link to="/shop/shopDetail" class="description_top">
-                        <section class="description_left">
-                            <img :src="imgBaseUrl + shopDetailData.image_path">
-                        </section>
+                        
                         <section class="description_right">
-                            <h4 class="description_title ellipsis">{{shopDetailData.name}}</h4>
-                            <p class="description_text">商家配送／{{shopDetailData.order_lead_time}}分钟送达／配送费¥{{shopDetailData.float_delivery_fee}}</p>
-                            <p class="description_promotion ellipsis">公告：{{promotionInfo}}</p>
+                            <h4 class="description_title ellipsis">麦当劳(豫园店)</h4>
+                            
                         </section>
-                        <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg" version="1.1" class="description_arrow" >
-                            <path d="M0 0 L8 7 L0 14"  stroke="#fff" stroke-width="1" fill="none"/>
-                        </svg>
                     </router-link>
-                    <footer class="description_footer" v-if="shopDetailData.activities.length" @click="showActivitiesFun">
-                        <p class="ellipsis">
-                            <span class="tip_icon" :style="{backgroundColor: '#' + shopDetailData.activities[0].icon_color, borderColor: '#' + shopDetailData.activities[0].icon_color}">{{shopDetailData.activities[0].icon_name}}</span>
-                            <span>{{shopDetailData.activities[0].description}}（APP专享）</span>
-                        </p>
-                        <p>{{shopDetailData.activities.length}}个活动</p>
-                        <svg class="footer_arrow">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use>
-                        </svg>
-                    </footer>
+                    
 
+                </section>
+                <section class="description_left">
+                    <img src="https://p0.meituan.net/shopmainpic/2ecd2529246dbe07f4c48698ddaf0e1012213.jpg%40120w_120h_1e_1c_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20">
                 </section>
             </header>
             <transition name="fade">
@@ -61,7 +49,7 @@
                     </svg>
                 </section>
             </transition>
-            <section class="change_show_type" ref="chooseType">
+            <section class="change_show_type" ref="chooseType" style="display: none;">
                 <div>
                     <span :class='{activity_show: changeShowType =="food"}' @click="changeShowType='food'">商品</span>
                 </div>
@@ -72,7 +60,7 @@
             <transition name="fade-choose">
                 <section v-show="changeShowType =='food'" class="food_container">
                     <section class="menu_container">
-                        <section class="menu_left" id="wrapper_menu" ref="wrapperMenu">
+                        <section class="menu_left" id="wrapper_menu" ref="wrapperMenu" style="display: none;">
                             <ul>
                                 <li v-for="(item,index) in menuList" :key="index" class="menu_left_li" :class="{activity_menu: index == menuIndex}" @click="chooseMenu(index)">
                                     <img :src="getImgPath(item.icon_url)" v-if="item.icon_url">
@@ -84,10 +72,10 @@
                         <section class="menu_right" ref="menuFoodList">
                             <ul>
                                 <li v-for="(item,index) in menuList" :key="index">
-                                    <header class="menu_detail_header">
+                                    <header class="menu_detail_header" >
                                         <section class="menu_detail_header_left">
-                                            <strong class="menu_item_title">{{item.name}}</strong>
-                                            <span class="menu_item_description">{{item.description}}</span>
+                                            <strong class="menu_item_title">商品</strong>
+                                            <span class="menu_item_description">评价4.7分</span>
                                         </section>
                                         <span class="menu_detail_header_right" @click="showTitleDetail(index)"></span>
                                         <p class="description_tip" v-if="index == TitleDetailIndex">
@@ -96,38 +84,31 @@
                                         </p>
                                     </header>
                                     <section v-for="(foods,foodindex) in item.foods" :key="foodindex" class="menu_detail_list">
-                                        <router-link  :to="{path: 'shop/foodDetail', query:{image_path:foods.image_path, description: foods.description, month_sales: foods.month_sales, name: foods.name, rating: foods.rating, rating_count: foods.rating_count, satisfy_rate: foods.satisfy_rate, foods, shopId}}" tag="div" class="menu_detail_link">
+                                        <div  class="menu_detail_link">
                                             <section class="menu_food_img">
-                                                <img :src="imgBaseUrl + foods.image_path">
+                                                <img src="http://fuss10.elemecdn.com/3/8b/bfa3f955cbce3330f1cb6818d0ce6png.png?imageMogr2/thumbnail/200x200/format/webp/quality/85">
                                             </section>
                                             <section class="menu_food_description">
                                                 <h3 class="food_description_head">
                                                     <strong class="description_foodname">{{foods.name}}</strong>
-                                                    <ul v-if="foods.attributes.length" class="attributes_ul">
+                                                    <!-- <ul v-if="foods.attributes.length" class="attributes_ul">
                                                         <li v-for="(attribute, foodindex) in foods.attributes" :key="foodindex" :style="{color: '#' + attribute.icon_color,borderColor:'#' +attribute.icon_color}" :class="{attribute_new: attribute.icon_name == '新'}">
                                                         <p :style="{color: attribute.icon_name == '新'? '#fff' : '#' + attribute.icon_color}">{{attribute.icon_name == '新'? '新品':attribute.icon_name}}</p>
                                                         </li>
-                                                    </ul>
+                                                    </ul> -->
 
                                                 </h3>
-                                                <p class="food_description_content">{{foods.description}}</p>
-                                                <p class="food_description_sale_rating">
-                                                    <span>月售{{foods.month_sales}}份</span>
-                                                    <span>好评率{{foods.satisfy_rate}}%</span>
-                                                </p>
-                                                <p v-if="foods.activity" class="food_activity">
-                                                <span :style="{color: '#' + foods.activity.image_text_color,borderColor:'#' +foods.activity.icon_color}">{{foods.activity.image_text}}</span>
-                                                </p>
+                                               <footer class="menu_detail_footer">
+                                                    <section class="food_price">
+                                                        <span>¥</span>
+                                                        <span>{{foods.specfoods[0].price}}</span>
+                                                        <span v-if="foods.specifications.length">起</span>
+                                                    </section>
+                                                    <buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></buy-cart>
+                                                </footer>
                                             </section>
-                                        </router-link>
-                                        <footer class="menu_detail_footer">
-                                            <section class="food_price">
-                                                <span>¥</span>
-                                                <span>{{foods.specfoods[0].price}}</span>
-                                                <span v-if="foods.specifications.length">起</span>
-                                            </section>
-                                            <buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></buy-cart>
-                                        </footer>
+                                        </div>
+                                        
                                     </section>
                                 </li>
                             </ul>
@@ -150,7 +131,7 @@
                         </section>
                         <section class="gotopay" :class="{gotopay_acitvity: minimumOrderAmount <= 0}">
                             <span class="gotopay_button_style" v-if="minimumOrderAmount > 0">还差¥{{minimumOrderAmount}}起送</span>
-                            <router-link :to="{path:'/confirmOrder', query:{geohash, shopId}}" class="gotopay_button_style" v-else >去结算</router-link>
+                            <span class="gotopay_button_style" v-else >去结算</span>
                         </section>
                     </section>
                     <transition name="toggle-cart">
@@ -754,10 +735,11 @@
         z-index: 11;
         padding-top: 0.2rem;
         padding-left: 0.2rem;
+        display: none;
     }
     .shop_detail_header{
-        overflow: hidden;
         position: relative;
+        box-shadow: 0px 2px 12px #f7c44e;
         .header_cover_img{
             width: 100%;
             position: absolute;
@@ -766,30 +748,37 @@
             z-index: 9;
             filter: blur(10px);
         }
+        .description_left{
+            margin-right: 0.3rem;
+            z-index:1000;
+            position: absolute;
+            bottom:-0.5rem;
+            left:1rem;
+            img{
+                @include wh(2.2rem, 2.2rem);
+                display: block;
+                border-radius: 2.2rem;
+                box-shadow: 0px 4px 12px #f7c44e;
+            }
+        }
         .description_header{
             position: relative;
             z-index: 10;
-            background-color: rgba(119,103,137,.43);
+            background-color: rgba(246,192,66,1);
             padding: 0.4rem 0 0.4rem 0.4rem;
             width: 100%;
+            min-height:6rem;
             overflow: hidden;
+
             .description_top{
                 display: flex;
-                .description_left{
-                    margin-right: 0.3rem;
-                    img{
-                        @include wh(2.9rem, 2.9rem);
-                        display: block;
-                        border-radius: 0.15rem;
-                    }
-                }
                 .description_right{
                     flex: 1;
                     .description_title{
                         @include sc(.8rem, #fff);
-                        font-weight: bold;
                         width: 100%;
-                        margin-bottom: 0.3rem;
+                        margin-top: 4rem;
+                        margin-left:4rem;
                     }
                     .description_text{
                         @include sc(.5rem, #fff);
@@ -947,10 +936,11 @@
             overflow-y: auto;
             .menu_detail_header{
                 width: 100%;
-                padding: .4rem;
+                padding: .8rem;
                 position: relative;
                 @include fj;
                 align-items: center;
+                background:rgba(255,255,255,1);
                 .menu_detail_header_left{
                     width: 11rem;
                     white-space: nowrap;
@@ -960,9 +950,10 @@
                         font-weight: bold;
                     }
                     .menu_item_description{
-                        @include sc(.5rem, #999);
+                        @include sc(.7rem, #999);
                         width: 30%;
                         overflow: hidden;
+                        margin-left: 1.4rem;
                     }
                 }
                 .menu_detail_header_right{
@@ -1011,14 +1002,16 @@
                     .menu_food_img{
                         margin-right: .4rem;
                         img{
-                            @include wh(2rem, 2rem);
+                            @include wh(3rem, 3rem);
                             display: block;
                         }
                     }
                     .menu_food_description{
                         width: 100%;
+                        margin-left:.2rem;
                         .food_description_head{
                             @include fj;
+                            margin-top: .2rem;
                             margin-bottom: .2rem;
                             .description_foodname{
                                 @include sc(.7rem, #333);
@@ -1083,7 +1076,6 @@
                     }
                 }
                 .menu_detail_footer{
-                    margin-left: 2.4rem;
                     font-size: 0;
                     margin-top: .3rem;
                     @include fj;
@@ -1110,7 +1102,7 @@
     }
     .buy_cart_container{
         position: absolute;
-        background-color: #3d3d3f;
+        background-color: #484f55;
         bottom: 0;
         left: 0;
         z-index: 13;
@@ -1123,17 +1115,17 @@
                 background-color: #3d3d3f;
                 position: absolute;
                 padding: .4rem;
-                border: 0.18rem solid #444;
+                /*border: 0.18rem solid #444;*/
                 border-radius: 50%;
-                left: .5rem;
+                left: .7rem;
                 top: -.7rem;
                 .cart_icon{
                     @include wh(1.2rem, 1.2rem);
                 }
                 .cart_list_length{
                     position: absolute;
-                    top: -.25rem;
-                    right: -.25rem;
+                    top: -.1rem;
+                    right: -.3rem;
                     background-color: #ff461d;
                     line-height: .7rem;
                     text-align: center;
@@ -1171,7 +1163,7 @@
         .gotopay{
             position: absolute;
             right: 0;
-            background-color: #535356;
+            background-color: #484f55;
             @include wh(5rem, 100%);
             text-align: center;
             display: flex;
@@ -1183,7 +1175,7 @@
             }
         }
         .gotopay_acitvity{
-            background-color: #4cd964;
+            background-color: #459af7;
         }
     }
     .cart_food_list{
