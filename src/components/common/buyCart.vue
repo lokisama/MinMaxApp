@@ -1,5 +1,5 @@
  <template>
-    <section class="cart_module">
+    <section class="cart_module" style="margin-top:-.6rem">
         <section v-if="!foods.specifications.length" class="cart_button">
             <transition name="showReduce">
                 <span @click="removeOutCart(foods.category_id, foods.item_id, foods.specfoods[0].food_id, foods.specfoods[0].name, foods.specfoods[0].price, '', foods.specfoods[0].packing_fee, foods.specfoods[0].sku_id, foods.specfoods[0].stock)" v-if="foodNum">

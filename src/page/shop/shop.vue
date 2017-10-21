@@ -12,7 +12,7 @@
                     <router-link to="/shop/shopDetail" class="description_top">
                         
                         <section class="description_right">
-                            <h4 class="description_title ellipsis">麦当劳(豫园店)</h4>
+                            <h4 class="description_title ellipsis">麦当劳</h4>
                             
                         </section>
                     </router-link>
@@ -20,7 +20,7 @@
 
                 </section>
                 <section class="description_left">
-                    <img src="https://p0.meituan.net/shopmainpic/2ecd2529246dbe07f4c48698ddaf0e1012213.jpg%40120w_120h_1e_1c_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20">
+                    <img src="../../images/pic_mdl.png">
                 </section>
             </header>
             <transition name="fade">
@@ -77,16 +77,12 @@
                                             <strong class="menu_item_title">商品</strong>
                                             <span class="menu_item_description">评价4.7分</span>
                                         </section>
-                                        <span class="menu_detail_header_right" @click="showTitleDetail(index)"></span>
-                                        <p class="description_tip" v-if="index == TitleDetailIndex">
-                                            <span>{{item.name}}</span>
-                                            {{item.description}}
-                                        </p>
+                                        
                                     </header>
                                     <section v-for="(foods,foodindex) in item.foods" :key="foodindex" class="menu_detail_list">
                                         <div  class="menu_detail_link">
                                             <section class="menu_food_img">
-                                                <img src="http://fuss10.elemecdn.com/3/8b/bfa3f955cbce3330f1cb6818d0ce6png.png?imageMogr2/thumbnail/200x200/format/webp/quality/85">
+                                                <img src="../../images/pic_jdmljt.png">
                                             </section>
                                             <section class="menu_food_description">
                                                 <h3 class="food_description_head">
@@ -744,7 +740,7 @@
     }
     .shop_detail_header{
         position: relative;
-        box-shadow: 0px 2px 12px #f7c44e;
+        box-shadow: 0px 4px 15px #ffe9c4;
         .header_cover_img{
             width: 100%;
             position: absolute;
@@ -763,13 +759,14 @@
                 @include wh(2.2rem, 2.2rem);
                 display: block;
                 border-radius: 2.2rem;
-                box-shadow: 0px 4px 12px #f7c44e;
+                box-shadow: 0px 4px 10px #ffe0b9;
             }
         }
         .description_header{
             position: relative;
             z-index: 10;
-            background-color: rgba(246,192,66,1);
+            /*background-color: rgba(246,192,66,1);*/
+            @include bis('../../images/pic_background_mdl_.png');
             padding: 0.4rem 0 0.4rem 0.4rem;
             width: 100%;
             min-height:6rem;
@@ -783,7 +780,8 @@
                         @include sc(.8rem, #fff);
                         width: 100%;
                         margin-top: 4rem;
-                        margin-left:4rem;
+                        margin-left:3.6rem;
+                        font-weight: bold;
                     }
                     .description_text{
                         @include sc(.5rem, #fff);
@@ -941,11 +939,13 @@
             overflow-y: auto;
             .menu_detail_header{
                 width: 100%;
-                padding: .8rem;
+                padding: 1.4rem .8rem .6rem 1rem;
                 position: relative;
                 @include fj;
                 align-items: center;
                 background:rgba(255,255,255,1);
+                border-bottom: 1px solid #EBEFF3;
+
                 .menu_detail_header_left{
                     width: 11rem;
                     white-space: nowrap;
@@ -955,10 +955,10 @@
                         font-weight: bold;
                     }
                     .menu_item_description{
-                        @include sc(.7rem, #999);
+                        @include sc(.7rem, #46484E);
                         width: 30%;
                         overflow: hidden;
-                        margin-left: 1.4rem;
+                        margin-left: 1.5rem;
                     }
                 }
                 .menu_detail_header_right{
@@ -998,8 +998,8 @@
             }
             .menu_detail_list{
                 background-color: #fff;
-                padding: .6rem .4rem;
-                border-bottom: 1px solid #f8f8f8;
+                padding: .6rem .7rem .6rem 1rem;
+                border-bottom: 1px solid #EBEFF3;
                 position: relative;
                 overflow: hidden;
                 .menu_detail_link{
@@ -1016,10 +1016,10 @@
                         margin-left:.2rem;
                         .food_description_head{
                             @include fj;
-                            margin-top: .2rem;
+                            margin-top: .6rem;
                             margin-bottom: .2rem;
                             .description_foodname{
-                                @include sc(.7rem, #333);
+                                @include sc(.7rem, #434954);
                             }
                             .attributes_ul{
                                 display: flex;
@@ -1184,7 +1184,7 @@
     .cart_food_list{
         position: fixed;
         width: 100%;
-        padding-bottom: 2rem;
+        padding-bottom: 3.8rem;
         z-index: 12;
         bottom: 0;
         left: 0;
