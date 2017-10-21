@@ -104,9 +104,14 @@
                                                         <span>{{foods.specfoods[0].price}}</span>
                                                         <span v-if="foods.specifications.length">起</span>
                                                     </section>
-                                                    <buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></buy-cart>
+
+                                                    <section>
+                                                        <buy-cart :shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></buy-cart>
+                                                    </section>
                                                 </footer>
                                             </section>
+
+                                            
                                         </div>
                                         
                                     </section>
@@ -126,7 +131,7 @@
                             </div>
                             <div class="cart_num">
                                 <div>¥ {{totalPrice}}</div>
-                                <div>配送费¥{{deliveryFee}}</div>
+                                <div style="margin-bottom: .2rem;">配送费¥{{deliveryFee}}</div>
                             </div>
                         </section>
                         <section class="gotopay" :class="{gotopay_acitvity: minimumOrderAmount <= 0}">
@@ -1107,7 +1112,7 @@
         left: 0;
         z-index: 13;
         display: flex;
-        @include wh(100%, 2rem);
+        @include wh(100%, 2.4rem);
         .cart_icon_num{
             flex: 1;
             .cart_icon_container{
@@ -1153,7 +1158,6 @@
                 div:nth-of-type(1){
                     font-size: .8rem;
                     font-weight: bold;
-                    margin-bottom: .1rem;
                 }
                 div:nth-of-type(2){
                     font-size: .4rem;
@@ -1170,8 +1174,7 @@
             align-items: center;
             justify-content: center;
             .gotopay_button_style{
-                @include sc(.7rem, #fff);
-                font-weight: bold;
+                @include sc(.6rem, #fff);
             }
         }
         .gotopay_acitvity{
