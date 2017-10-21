@@ -127,7 +127,7 @@
                             </div>
                             <div class="cart_num">
                                 <div>¥ {{totalPrice}}</div>
-                                <div style="margin-bottom: .2rem;">配送费¥{{deliveryFee}}</div>
+                                <!-- <div style="margin-bottom: .2rem;">配送费¥{{deliveryFee}}</div> -->
                             </div>
                         </section>
                         <section class="gotopay" :class="{gotopay_acitvity: minimumOrderAmount <= 0}">
