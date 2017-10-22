@@ -1,42 +1,16 @@
 <template>
     <div>
-    	<head-top signin-up='msite'>
-    		<router-link :to="'/search/' + geohash" class="link_search" slot="search">
-	    		<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
-	    			<circle cx="8" cy="8" r="7" stroke="rgb(255,255,255)" stroke-width="1" fill="none"/>
-	    			<line x1="14" y1="14" x2="20" y2="20" style="stroke:rgb(255,255,255);stroke-width:2"/>
-	    		</svg>
-    		</router-link>
-			<router-link to="/home" slot="msite-title" class="msite_title">
-				<span class="title_text ellipsis">{{msietTitle}}</span>
-			</router-link>
-    	</head-top>
-    	<nav class="msite_nav">
-    		<div class="swiper-container" v-if="foodTypes.length">
-		        <div class="swiper-wrapper">
-		            <div class="swiper-slide food_types_container" v-for="(item, index) in foodTypes" :key="index">
-	            		<router-link :to="{path: '/food', query: {geohash, title: foodItem.title, restaurant_category_id: getCategoryId(foodItem.link)}}" v-for="foodItem in item" :key="foodItem.id" class="link_to_food">
-	            			<figure>
-	            				<img :src="imgBaseUrl + foodItem.image_url">
-	            				<figcaption>{{foodItem.title}}</figcaption>
-	            			</figure>
-	            		</router-link>
-		            </div>
-		        </div>
-		        <div class="swiper-pagination"></div>
-		    </div>
-		    <img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
-    	</nav>
+    	
+    
     	<div class="shop_list_container">
 	    	<header class="shop_header">
 	    		<svg class="shop_icon">
 	    			<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shop"></use>
 	    		</svg>
-	    		<span class="shop_header_title">附近商家</span>
+	    		<span class="shop_header_title">订餐商户</span>
 	    	</header>
 	    	<shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
     	</div>
-    	<foot-guide></foot-guide>
     </div>    
 </template>
 
@@ -179,19 +153,23 @@ export default {
 		}
 	}
 	.shop_list_container{
-		margin-top: .4rem;
 		border-top: 0.025rem solid $bc;
 		background-color: #fff;
+		position: absolute;
+		top:0;
+		bottom:0;
+		@include bis('../../images/pic_book_backgroung.png');
 		.shop_header{
+			margin-top:1rem;
 			.shop_icon{
-				fill: #999;
+				fill: #fff;
 				margin-left: 0.6rem;
 				vertical-align: middle;
 				@include wh(0.6rem, 0.6rem);
 			}
 			.shop_header_title{
-				color: #999;
-				@include font(0.55rem, 1.6rem);
+				color: #fff;
+				@include font(1rem, 2.6rem);
 			}
 		}
 	}

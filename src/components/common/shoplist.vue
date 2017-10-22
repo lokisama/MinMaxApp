@@ -1,47 +1,63 @@
 <template>
 	<div class="shoplist_container">
 		<ul v-load-more="loaderMore" v-if="shopListArr.length" type="1">
-			<router-link :to="{path: 'shop', query:{geohash, id: item.id}}" v-for="item in shopListArr" tag='li' :key="item.id" class="shop_li">
+			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
 				<section>
-					<img :src="imgBaseUrl + item.image_path" class="shop_img">
+					<img src="../../images/pic_mdl.png" class="shop_img">
 				</section>
 				<hgroup class="shop_right">
 					<header class="shop_detail_header">
-						<h4 :class="item.is_premium? 'premium': ''" class="" class="shop_title ellipsis">{{item.name}}</h4>
-						<ul class="shop_detail_ul">
-							<li v-for="item in item.supports" :key="item.id" class="supports">{{item.icon_name}}</li>
-						</ul>
+						<h4 class="" class="shop_title ellipsis">麦当劳</h4>
+						
 					</header>
-					<h5 class="rating_order_num">
-						<section class="rating_order_num_left">
-							<section class="rating_section">
-								<rating-star :rating='item.rating'></rating-star>
-								<span class="rating_num">{{item.rating}}</span>
-							</section>
-							<section class="order_section">
-								月售{{item.recent_order_num}}单
-							</section>
-						</section>
-						<section class="rating_order_num_right">
-							<span class="delivery_style delivery_left" v-if="item.delivery_mode">{{item.delivery_mode.text}}</span>
-							<span class="delivery_style delivery_right" v-if="zhunshi(item.supports)">准时达</span>
-						</section>
-					</h5>
-					<h5 class="fee_distance">
-						<p class="fee">
-							¥{{item.float_minimum_order_amount}}起送 
-							<span class="segmentation">/</span>
-							{{item.piecewise_agent_fee.tips}}
-						</p>
-						<p class="distance_time">
-							<span v-if="Number(item.distance)">{{item.distance > 1000? (item.distance/1000).toFixed(2) + 'km': item.distance + 'm'}}
-								<span class="segmentation">/</span>
-							</span>
-							<span v-else>{{item.distance}}</span>
-							<span class="segmentation">/</span>
-							<span class="order_time">{{item.order_lead_time}}</span>
-						</p>
-					</h5>
+				</hgroup>
+			</router-link>
+
+			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+				<section>
+					<img src="../../images/pic_xbk.png" class="shop_img">
+				</section>
+				<hgroup class="shop_right">
+					<header class="shop_detail_header">
+						<h4  class="" class="shop_title ellipsis">星巴克</h4>
+						
+					</header>
+				</hgroup>
+			</router-link>
+
+			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+				<section>
+					<img src="../../images/pic_bsk.png" class="shop_img">
+				</section>
+				<hgroup class="shop_right">
+					<header class="shop_detail_header">
+						<h4  class="" class="shop_title ellipsis">必胜客</h4>
+						
+					</header>
+				</hgroup>
+			</router-link>
+
+			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+				<section>
+					<img src="../../images/pic_hmxs.png" class="shop_img">
+				</section>
+				<hgroup class="shop_right">
+					<header class="shop_detail_header">
+						<h4  class="" class="shop_title ellipsis">盒马鲜生</h4>
+						
+					</header>
+				</hgroup>
+			</router-link>
+
+			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+				<section>
+					<img src="../../images/pic_xysj.png" class="shop_img">
+				</section>
+				<hgroup class="shop_right">
+					<header class="shop_detail_header">
+						<h4  class="" class="shop_title ellipsis">小杨生煎</h4>
+						
+					</header>
 				</hgroup>
 			</router-link>
 		</ul>
@@ -50,7 +66,7 @@
 				<img src="../../images/shopback.svg" class="list_back_svg">
 			</li>
 		</ul>
-		<p v-if="touchend" class="empty_data">没有更多了</p>
+		<!-- <p v-if="touchend" class="empty_data">没有更多了</p> -->
 		<aside class="return_top" @click="backTop" v-if="showBackStatus">
 			<svg class="back_top_svg">
 				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#backtop"></use>
@@ -192,13 +208,12 @@ export default {
 <style lang="scss" scoped>
 	@import 'src/style/mixin';
 	.shoplist_container{
-		background-color: #fff;
-		margin-bottom: 2rem;
+		/*background-color: #fff;
+		margin-bottom: 2rem;*/
 	}
 	.shop_li{
 		display: flex;
-		border-bottom: 0.025rem solid #f1f1f1;
-		padding: 0.7rem 0.4rem;
+		padding: 1rem 1.9rem;
 	}
 	.shop_img{
 		@include wh(2.7rem, 2.7rem);
@@ -213,15 +228,17 @@ export default {
 	}
 	.shop_right{
 		flex: auto;
+		padding-top:1rem;
+		padding-left:.4rem;
 		.shop_detail_header{
 			@include fj;
 			align-items: center;
 			.shop_title{
 				width: 8.5rem;
-				color: #333;
+				color: #fff;
 				padding-top: .01rem;
 				@include font(0.65rem, 0.65rem, 'PingFangSC-Regular');
-				font-weight: 700;
+				/*font-weight: 700;*/
 			}
 			.premium::before{
 				content: '品牌';
