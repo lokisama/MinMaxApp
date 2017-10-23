@@ -1,7 +1,7 @@
 <template>
 	<div class="shoplist_container">
 		<ul v-load-more="loaderMore" v-if="shopListArr.length" type="1">
-			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+			<router-link :to="{path: 'shop', query:{geohash, id: 1}}"  tag='li'  class="shop_li">
 				<section>
 					<img src="../../images/pic_mdl.png" class="shop_img">
 				</section>
@@ -13,7 +13,7 @@
 				</hgroup>
 			</router-link>
 
-			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+			<router-link :to="{path: 'shop', query:{geohash, id: 1}}"  tag='li'  class="shop_li">
 				<section>
 					<img src="../../images/pic_xbk.png" class="shop_img">
 				</section>
@@ -25,7 +25,7 @@
 				</hgroup>
 			</router-link>
 
-			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+			<router-link :to="{path: 'shop', query:{geohash, id: 1}}"  tag='li'  class="shop_li">
 				<section>
 					<img src="../../images/pic_bsk.png" class="shop_img">
 				</section>
@@ -37,7 +37,7 @@
 				</hgroup>
 			</router-link>
 
-			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+			<router-link :to="{path: 'shop', query:{geohash, id: 1}}"  tag='li'  class="shop_li">
 				<section>
 					<img src="../../images/pic_hmxs.png" class="shop_img">
 				</section>
@@ -49,7 +49,7 @@
 				</hgroup>
 			</router-link>
 
-			<router-link :to="{path: 'shop', query:{geohash, id: 2}}"  tag='li'  class="shop_li">
+			<router-link :to="{path: 'shop', query:{geohash, id: 1}}"  tag='li'  class="shop_li">
 				<section>
 					<img src="../../images/pic_xysj.png" class="shop_img">
 				</section>

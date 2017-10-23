@@ -157,6 +157,8 @@ export default {
 		position: absolute;
 		top:0;
 		bottom:0;
+		left:0;
+		right:0;
 		@include bis('../../images/pic_book_backgroung.png');
 		.shop_header{
 			margin-top:1rem;
