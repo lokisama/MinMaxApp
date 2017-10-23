@@ -1,7 +1,6 @@
 <template>
     <div>
-    	
-    
+
     	<div class="shop_list_container">
 	    	<header class="shop_header">
 	    		<svg class="shop_icon">
@@ -154,7 +153,7 @@ export default {
 	}
 	.shop_list_container{
 		border-top: 0.025rem solid $bc;
-		background-color: #fff;
+		
 		position: absolute;
 		top:0;
 		bottom:0;

@@ -132,7 +132,8 @@
                         </section>
                         <section class="gotopay" :class="{gotopay_acitvity: minimumOrderAmount <= 0}">
                             <span class="gotopay_button_style" v-if="minimumOrderAmount > 0">还差¥{{minimumOrderAmount}}起送</span>
-                            <span class="gotopay_button_style" v-else >去结算</span>
+                            <!-- <span class="gotopay_button_style" v-else >去结算</span> -->
+                            <router-link :to="{path:'/confirmOrder', query:{geohash, shopId}}" class="gotopay_button_style" v-else >去结算</router-link>
                         </section>
                     </section>
                     <transition name="toggle-cart">

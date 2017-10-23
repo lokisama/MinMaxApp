@@ -61,11 +61,11 @@
 				</hgroup>
 			</router-link>
 		</ul>
-		<ul v-else class="animation_opactiy">
+		<!-- <ul v-else class="animation_opactiy">
 			<li class="list_back_li" v-for="item in 10" :key="item">
 				<img src="../../images/shopback.svg" class="list_back_svg">
 			</li>
-		</ul>
+		</ul> -->
 		<!-- <p v-if="touchend" class="empty_data">没有更多了</p> -->
 		<aside class="return_top" @click="backTop" v-if="showBackStatus">
 			<svg class="back_top_svg">

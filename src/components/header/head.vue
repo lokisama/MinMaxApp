@@ -56,12 +56,12 @@
     @import '../../style/mixin';
 
     #head_top{
-        background-color: $blue;
+        background-color: #494e5b;
         position: fixed;
         z-index: 100;
         left: 0;
         top: 0;
-        @include wh(100%, 1.95rem);
+        @include wh(100%, 1.98rem);
     }
     .head_goback{
         left: 0.4rem;
