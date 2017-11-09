@@ -3,13 +3,24 @@
         <section v-if="!showLoading">
             <head-top goBack="true"></head-top>
 
-            <section class="delivery_model container_style">
+            <section class="delivery_model container_style" v-if="false">
                 <p class="deliver_text">
-                    <img src="../../images/pic_clock.png"/>
+                    <img src="../../images/pic_car.png"/>
                 </p>
                 <section class="deliver_time">
-                    <p>预计将在</p>
-                    <p>{{checkoutData.delivery_reach_time}} 之前送达</p>
+                    <p>正在分配运输车</p>
+                    <p>取餐密码:020932</p>
+                </section>
+            </section>
+
+            <section class="delivery_model container_style" v-if="true">
+                <p class="deliver_text">
+                    <img src="../../images/pic_robot.png"/>
+                </p>
+                <section class="deliver_time">
+                    <!-- <p>机器人正在取货</p> -->
+                    <p>机器人正在送餐</p>
+                    <p>取餐密码:020932</p>
                 </section>
             </section>
 
@@ -18,15 +29,15 @@
                     
                     
                     <div class="address_detail_container">
-                        <header>
-                            <span>配送地址</span>
-                        </header>
+                            <!-- <header>
+                                <span>配送地址</span>
+                            </header> -->
                         <div class="address_detail">
                             <!-- <p>上海市黄浦区蒙自西路28号蒙西小区8栋201室</p> -->
-                            <p>上海市徐汇区漕宝路509号A栋1003室</p>
+                            <p>由minMax机器人进行配送</p>
                         </div>
                         <div class="address_detail">
-                            <p>王欣 13788997536</p>
+                            <p>将于 {{checkoutData.delivery_reach_time}} 送达</p>
                         </div>
                     </div>
                 </div>
@@ -35,7 +46,7 @@
             
             <section class="food_list">
                 <header v-if="checkoutData.cart.restaurant_info">
-                    <span>{{checkoutData.cart.restaurant_info.name}}</span>
+                    <span>{{checkoutData.cart.restaurant_info.name}}(思南公馆店)</span>
                 </header>
                 <ul class="food_list_ul" v-if="checkoutData.cart.groups">
                     <li v-for="item in checkoutData.cart.groups[0]" :key="item.id" class="food_item_style">
@@ -68,11 +79,10 @@
                 </div>
             </section>
             
-            <section class="confrim_order">
+            <!-- <section class="confrim_order">
                 <p>¥{{checkoutData.cart.total}}</p>
-                <router-link :to='{path: "/finishOrder", query: {geohash: geohash, shopId: shopId}}' tag="p">
-                去结算</router-link>
-            </section>
+                <p @click="confrimOrder">去结算</p>
+            </section> -->
             <transition name="fade">
                 <div class="cover" v-if="showPayWay" @click="showPayWayFun"></div>
             </transition>
@@ -309,7 +319,6 @@
             display: flex;
             align-items: center;
             line-height: 1.2rem;
-            flex:1;
             .location_icon{
                 @include wh(.8rem, .8rem);
                 fill: $blue;
@@ -366,19 +375,21 @@
             font-weight: bold;
             padding-left: .3rem;
             img{
-                @include wh(2.4rem, 2.4rem);
+                @include wh(auto, 2.4rem);
             }
         }
         .deliver_time{
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-left: 1rem;
-            p:nth-of-type(1){
-                @include sc(.7rem, #9699a9);
+            margin-left: .5rem;
+            margin-top: -.7rem;
+            @include sc(.7rem, #9699a9);
+            p{
+                @include sc(.7rem, #fff);
             }
             p:nth-of-type(2){
-                @include sc(.6rem, #fff);
+                @include sc(.6rem, #9699a9);
                 width: 6rem;
                 margin-top: .2rem;
                 text-align: left;

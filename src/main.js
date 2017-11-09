@@ -5,6 +5,7 @@ import store from './store/'
 import {routerMode} from './config/env'
 import './config/rem'
 import FastClick from 'fastclick'
+import VueAMap from 'vue-amap'
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -13,6 +14,12 @@ if ('addEventListener' in document) {
 }
 
 Vue.use(VueRouter)
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
+  key: '8f3455c5dbad01bc7c7d42eff5f10aac',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.Polyline', 'AMap.ToolBar', 'AMap.PolyEditor', 'AMap.Marker','AMap.MapType','AMap.Geolocation'],
+  uiVersion: '1.0'
+});
 const router = new VueRouter({
 	routes,
 	mode: routerMode,

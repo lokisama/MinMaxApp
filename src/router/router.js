@@ -45,6 +45,8 @@ const service = r => require.ensure([], () => r(require('../page/service/service
 const questionDetail = r => require.ensure([], () => r(require('../page/service/children/questionDetail')), 'questionDetail')
 const find = r => require.ensure([], () => r(require('../page/find/find')), 'find')
 const download = r => require.ensure([], () => r(require('../page/download/download')), 'download')
+const delivery = r => require.ensure([], () => r(require('../page/delivery/delivery')), 'delivery')
+const finishOrder = r => require.ensure([], () => r(require('../page/confirmOrder/finishOrder')), 'finishOrder')
 
 
 
@@ -62,6 +64,14 @@ export default [{
         {
             path: '/home',
             component: home
+        },
+        {
+            path: '/delivery',
+            component: delivery
+        },
+        {
+            path: '/finishOrder',
+            component: finishOrder
         },
         //当前选择城市页
         {
