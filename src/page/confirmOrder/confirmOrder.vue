@@ -68,11 +68,10 @@
                 </div>
             </section>
             
-            <section class="confrim_order">
+            <router-link class="confrim_order" :to='{path: "/finishOrder", query: {geohash: geohash, shopId: shopId}}' tag="section">
                 <p>¥{{checkoutData.cart.total}}</p>
-                <router-link :to='{path: "/finishOrder", query: {geohash: geohash, shopId: shopId}}' tag="p">
-                去结算</router-link>
-            </section>
+                <p>去结算</p>
+            </router-link>
             <transition name="fade">
                 <div class="cover" v-if="showPayWay" @click="showPayWayFun"></div>
             </transition>

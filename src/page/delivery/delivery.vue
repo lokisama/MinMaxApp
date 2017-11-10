@@ -3,15 +3,13 @@
         <section v-if="!showLoading">
 
             <section class="delivery_model container_style">
-                <section class="deliver_time" v-if="false">
+                <!-- <section class="deliver_time" v-if="false">
                     <p>线路</p>
                     <p>目的地 - 麦当劳</p>
                     <p>漕宝路683号国际商务中心1楼</p>
-                </section>
+                </section> -->
                 <section class="deliver_time" v-if="true">
-                    <p>已到达送货地</p>
-                    <p >机器人正在等待指令...</p>
-                    <p >机器人正在等待指令...</p>
+                    <p>{{status}}</p>
                 </section>
             </section>
             
@@ -155,6 +153,7 @@
     export default {
         data(){
             return {
+                status:'等待指令',
                 rbtReady:0,
                 map: null,
                 car: null,
@@ -176,6 +175,7 @@
     "step": 0,
     "type": 2,
     "total": 1,
+    "status":"正在前往目的地",
     "path": [
       {
         "status":0,
@@ -220,6 +220,7 @@
     "step": 1,
     "type": 1,
     "total": 2,
+    "status":"机器人已激活",
     "path": [
       {
         "status": 0,
@@ -269,6 +270,7 @@
     "step": 2,
     "type": 2,
     "total": 1,
+    "status":"正在前往目的地",
     "path":[
       {
         "status": 0,
@@ -303,6 +305,7 @@
     "step": 3,
     "type": 1,
     "total": 3,
+    "status":"机器人已激活",
     "path": [
       {
         "status": 0,
@@ -345,6 +348,7 @@
     "step": 4,
     "type": 2,
     "total": 1,
+    "status":"正在前往目的地",
     "path":[
       {
         "status": 0,
@@ -374,6 +378,7 @@
     "step": 5,
     "type": 1,
     "total": 2,
+    "status":"机器人已激活",
     "path":[
       {
         "status": 0,
@@ -407,6 +412,7 @@
     "step": 6,
     "type": 2,
     "total": 2,
+    "status":"正在前往目的地",
     "path":[
       {
         "status": 0,
@@ -441,6 +447,7 @@
     "step": 7,
     "type": 1,
     "total": 1,
+    "status":"机器人已激活",
     "path":[
       {
         "status": 0,
@@ -475,6 +482,7 @@
     "step": 8,
     "type": 2,
     "total": 1,
+    "status":"正在前往目的地",
     "path":[
       {
         "status": 0,
@@ -509,6 +517,7 @@
     "step": 9,
     "type": 1,
     "total": 3,
+    "status":"机器人已激活",
     "path":[
       {
         "status": 0,
@@ -552,6 +561,7 @@
     "step": 10,
     "type": 2,
     "total": 1,
+    "status":"正在前往目的地",
     "path":[
       {
         "status": 0,
@@ -581,6 +591,7 @@
     "step": 11,
     "type": 1,
     "total": 2,
+    "status":"机器人已激活",
     "path":[
       {
         "status": 0,
@@ -609,6 +620,7 @@
     "step": 12,
     "type": 2,
     "total": 1,
+    "status":"正在前往目的地",
     "path":[
       {
         "status": 0,
@@ -648,6 +660,7 @@
     "step": 13,
     "type": 1,
     "total": 2,
+    "status":"机器人已激活",
     "path":[
       {
         "status": 0,
@@ -794,6 +807,8 @@
                 });
               }
 
+              _this.status = data[step].status;
+
               // 商家
               if(data[step].point != undefined){
                 data[step].point.forEach(point=>{
@@ -837,6 +852,7 @@
                 
                 _this.car.moveAlong(data[step].path[0].line, 80);
                 _this.car.on('movealong', function(e) {
+                  _this.status = "已到达目的地";
                   _this.step = step + 1;
                 })
 
