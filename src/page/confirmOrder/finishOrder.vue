@@ -3,17 +3,17 @@
         <section v-if="!showLoading">
             <head-top goBack="true"></head-top>
 
-            <section class="delivery_model container_style" v-if="false">
+            <section class="delivery_model container_style" v-if="status=='finish'">
                 <p class="deliver_text">
                     <img src="../../images/pic_car.png"/>
                 </p>
                 <section class="deliver_time">
-                    <p>正在分配运输车</p>
+                    <p>餐已送达</p>
                     <p>取餐密码:020932</p>
                 </section>
             </section>
 
-            <section class="delivery_model container_style" v-if="true">
+            <section class="delivery_model container_style" v-if="status=='start'">
                 <p class="deliver_text">
                     <img src="../../images/pic_robot.png"/>
                 </p>
@@ -24,7 +24,7 @@
                 </section>
             </section>
 
-            <router-link :to='{path: "/confirmOrder/chooseAddress", query: {id: checkoutData.cart.id, sig: checkoutData.sig}}' class="address_container">
+            <div class="address_container">
                 <div class="address_empty_left">
                     
                     
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-            </router-link>
+            </div>
             
             
             <section class="food_list">
@@ -113,12 +113,13 @@
     import headTop from 'src/components/header/head'
     import alertTip from 'src/components/common/alertTip'
     import loading from 'src/components/common/loading'
-    import {checkout, getAddress, placeOrders, getAddressList} from 'src/service/getData'
+    import {checkout, getAddress, placeOrders, getAddressList, offerToQueue, putToMap, getFromMap} from 'src/service/getData'
     import {imgBaseUrl} from 'src/config/env'
 
     export default {
         data(){
             return {
+                status: 'start',
                 geohash: '', //geohash位置信息
                 shopId: null, //商店id值
                 showLoading: true, //显示加载动画
@@ -132,6 +133,7 @@
             }
         },
         created(){
+            putToMap('MinMaxDeliveryStatus','user',{ "status" : "start" });
             //获取上个页面传递过来的geohash值
             this.geohash = this.$route.query.geohash;
             //获取上个页面传递过来的shopid值
@@ -146,6 +148,9 @@
                 this.initData();
                 this.SAVE_GEOHASH(this.geohash);
             }
+
+
+            this.init()
             // if (!(this.userInfo && this.userInfo.user_id)) {
             //     this.showAlert = true;
             //     this.alertText = '您还没有登录';
@@ -180,6 +185,19 @@
             ...mapMutations([
                 'INIT_BUYCART', 'SAVE_GEOHASH', 'CHOOSE_ADDRESS', 'NEED_VALIDATION', 'SAVE_CART_ID_SIG', 'SAVE_ORDER_PARAM', 'ORDER_SUCCESS', 'SAVE_SHOPID'
             ]),
+            init(){
+              var _this = this;
+              setInterval(() => {
+                  getFromMap('MinMaxDeliveryStatus','user').then( res => {
+                    var json = JSON.parse(res.data);
+                    console.log(json.status);
+
+                    if (json.status === 'finish') {
+                        _this.status = 'finish';
+                    }
+                  })
+              },2000)
+            },
             //初始化数据
             async initData(){
                 let newArr = new Array;

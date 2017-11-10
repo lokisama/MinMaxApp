@@ -1,6 +1,15 @@
 import fetch from '../config/fetch'
 import {getStore} from '../config/mUtils'
 
+export const offerToQueue = (queue, data) => fetch('http://demo.icoos.cn:4999/bigQueue/offer/' + queue, data ,'POST');
+
+export const pollFromQueue = (queue) => fetch('http://demo.icoos.cn:4999/bigQueue/poll/' + queue, {} ,'POST');
+
+export const getQueueSize = (queue) => fetch('http://demo.icoos.cn:4999/bigQueue/size/' + queue, {} ,'POST');
+
+export const putToMap = (mapName, key, data) => fetch('http://demo.icoos.cn:4999/bigMap/put/' + mapName + '/'+ key, data ,'POST');
+
+export const getFromMap = (mapName, key) => fetch('http://demo.icoos.cn:4999/bigMap/get/' + mapName + '/'+ key, {} ,'POST');
 /**
  * 获取首页默认地址
  */

@@ -4,7 +4,9 @@ import {
 
 export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 	type = type.toUpperCase();
-	url = baseUrl + url;
+	if( url.indexOf('http') == -1){
+		url = baseUrl + url;
+	} 
 
 	if (type == 'GET') {
 		let dataStr = ''; //数据拼接字符串
@@ -19,16 +21,22 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 	}
 
 	if (window.fetch && method == 'fetch') {
-		let requestConfig = {
-			credentials: 'include',
-			method: type,
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			mode: "cors",
-			cache: "force-cache"
+		let requestConfig;
+		if( url.indexOf('http') == -1){
+			requestConfig = {
+				credentials: 'include',
+				method: type,
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				mode: "cors",
+				cache: "force-cache"
+			}
+		}else{
+			requestConfig = {method: type};
 		}
+		
 
 		if (type == 'POST') {
 			Object.defineProperty(requestConfig, 'body', {

@@ -9,7 +9,7 @@
                     <p>漕宝路683号国际商务中心1楼</p>
                 </section>
                 <section class="deliver_time" v-if="true">
-                    <p>已到达送货地你</p>
+                    <p>已到达送货地</p>
                     <p >机器人正在等待指令...</p>
                     <p >机器人正在等待指令...</p>
                 </section>
@@ -97,11 +97,36 @@
                   <span class="botton_right waitforStore" @click="goToMap(map,data,9,2)">送&nbsp;&nbsp;餐</span>
                 </div>
               </div>
+              <div class="button_blue" id="resume" v-if="step==10" @click="goToMap(map,data,10,0)">点击继续导航</div>
 
+              <div id="robot" v-if="step==11">
+                <div class="boton_blue robot">
+                  <span class="botton_left">1号机器人</span>
+                  <span class="botton_right waitforStore" @click="goToMap(map,data,11,0)">送&nbsp;&nbsp;餐</span>
+                </div>
+                <div class="boton_blue robot">
+                  <span class="botton_left">2号机器人</span>
+                  <span class="botton_right waitforStore" @click="goToMap(map,data,11,1)">送&nbsp;&nbsp;餐</span>
+                </div>
+              </div>
+
+              <div class="button_blue" id="resume" v-if="step==12" @click="goToMap(map,data,12,0)">点击继续导航</div>
+
+              <div id="robot" v-if="step==13">
+                <div class="boton_blue robot">
+                  <span class="botton_left">1号机器人</span>
+                  <span class="botton_right waitforStore" @click="goToMap(map,data,13,0)">送&nbsp;&nbsp;餐</span>
+                </div>
+                <div class="boton_blue robot">
+                  <span class="botton_left">2号机器人</span>
+                  <span class="botton_right waitforStore" @click="goToMap(map,data,13,1)">送&nbsp;&nbsp;餐</span>
+                </div>
+                <div class="boton_blue robot">
+                  <span class="botton_left">3号机器人</span>
+                  <span class="botton_right waitforStore" @click="goToMap(map,data,13,1)">送&nbsp;&nbsp;餐</span>
+                </div>
+              </div>
             </div>
-
-            
-
             <foot-guide></foot-guide>
             
             <transition name="fade">
@@ -124,7 +149,7 @@
     import headTop from 'src/components/header/head'
     import alertTip from 'src/components/common/alertTip'
     import loading from 'src/components/common/loading'
-    import {checkout, getAddress, placeOrders, getAddressList} from 'src/service/getData'
+    import {checkout, getAddress, placeOrders, getAddressList, offerToQueue, putToMap, getFromMap} from 'src/service/getData'
     import footGuide from '../../components/footer/footGuideD'
     import { lazyAMapApiLoaderInstance } from 'vue-amap';
     export default {
@@ -135,6 +160,7 @@
                 car: null,
                 step: 0,
                 robot:[],
+                userStatus:null,
                 geohash: '', //geohash位置信息
                 shopId: null, //商店id值
                 showLoading: true, //显示加载动画
@@ -145,346 +171,516 @@
                 showAlert: false, //弹出框
                 alertText: null, //弹出框内容
                 data: [
-                  {
-                    step: 0,
-                    type: 2,
-                    total: 1,
-                    path: [
-                      {
-                        status:0,
-                        line:[[121.468812, 31.214569], [121.468882, 31.214489], [121.468629, 31.21441]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "store",
-                        location: [121.468321, 31.214592],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_bsk.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467849, 31.213968],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
-                      },
-                      {
-                        type: "boton",
-                        location: [121.468629, 31.21441],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  },
-                  {
-                    step: 1,
-                    type: 1,
-                    total: 2,
-                    path: [
-                      {
-                        status: 0,
-                        line:[[121.468629, 31.21441], [121.468321, 31.214592], [121.468629, 31.21441]]
-                      },
-                      {
-                        status: 0,
-                        line: [[121.468629, 31.21441], [121.467849, 31.213968], [121.468629, 31.21441]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "store",
-                        location: [121.468321, 31.214592],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_bsk.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467849, 31.213968],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
-                      },
-                      {
-                        type: "boton",
-                        location: [121.468629, 31.21441],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
+  {
+    "id":0,
+    "step": 0,
+    "type": 2,
+    "total": 1,
+    "path": [
+      {
+        "status":0,
+        "line":[[121.468812, 31.214569], [121.468882, 31.214489], [121.468629, 31.21441]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.467423, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467144, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467294, 31.214525],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "store",
+        "location": [121.468321, 31.214592],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_bsk.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467849, 31.213968],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
+      },
+      {
+        "type": "boton",
+        "location": [121.468629, 31.21441],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id":1,
+    "step": 1,
+    "type": 1,
+    "total": 2,
+    "path": [
+      {
+        "status": 0,
+        "line":[[121.468629, 31.21441], [121.468321, 31.214592], [121.468629, 31.21441]]
+      },
+      {
+        "status": 0,
+        "line": [[121.468629, 31.21441], [121.467849, 31.213968], [121.468629, 31.21441]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.467423, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467144, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467294, 31.214525],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "store",
+        "location": [121.468321, 31.214592],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_bsk.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467849, 31.213968],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
+      },
+      {
+        "type": "boton",
+        "location": [121.468629, 31.21441],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
 
-                  },
-                  {
-                    step: 2,
-                    type: 2,
-                    total: 1,
-                    path:[
-                      {
-                        status: 0,
-                        line: [[121.468629, 31.21441], [121.468174, 31.214268], [121.467859, 31.21479]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "customer",
-                        location: [121.467423, 31.214727],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467144, 31.214727],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467294, 31.214525],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467859, 31.21479],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  },
-                  {
-                    step: 3,
-                    type: 1,
-                    total: 3,
-                    path: [
-                      {
-                        status: 0,
-                        line:[[121.467859, 31.21479], [121.467423, 31.214727], [121.467859, 31.21479]]
-                      },
-                      {
-                        status: 0,
-                        line: [[121.467859, 31.21479], [121.467144, 31.214727], [121.467859, 31.21479]]
-                      },
-                      {
-                        status: 0,
-                        line: [[121.467859, 31.21479], [121.467294, 31.214525], [121.467859, 31.21479]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "customer",
-                        location: [121.467423, 31.214727],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467144, 31.214727],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467294, 31.214525],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467859, 31.21479],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-
-                  },
-                  {
-                    step: 4,
-                    type: 2,
-                    total: 1,
-                    path:[
-                      {
-                        status: 0,
-                        line: [[121.467859, 31.21479], [121.4676, 31.215218],[121.467433, 31.215594]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "customer",
-                        location: [121.467922, 31.215819],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467686, 31.215856],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467433, 31.215594],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  },
-                  {
-                    step: 5,
-                    type: 1,
-                    total: 2,
-                    path:[
-                      {
-                        status: 0,
-                        line: [[121.467433, 31.215594], [121.467922, 31.215819],[121.467433, 31.215594]]
-                      },
-                      {
-                        status: 0,
-                        line: [[121.467433, 31.215594], [121.467686, 31.215856],[121.467433, 31.215594]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "customer",
-                        location: [121.467922, 31.215819],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467686, 31.215856],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.467433, 31.215594],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  },
-                  {
-                    step: 6,
-                    type: 2,
-                    total: 2,
-                    path:[
-                      {
-                        status: 0,
-                        line: [[121.467433, 31.215594], [121.467213, 31.21609]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "store",
-                        location: [121.468193, 31.216344],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467796, 31.216271],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_xysj.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467433, 31.215594],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467213, 31.21609],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  },
-                  {
-                    step: 7,
-                    type: 1,
-                    total: 1,
-                    path:[
-                      {
-                        status: 0,
-                        line: [[121.467213, 31.21609], [121.468193, 31.216344],[121.467796, 31.216271],[121.467213, 31.21609]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "store",
-                        location: [121.468193, 31.216344],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467796, 31.216271],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/pic_xysj.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467433, 31.215594],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      },
-                      {
-                        type: "store",
-                        location: [121.467213, 31.21609],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  },
-                  {
-                    step: 8,
-                    type: 2,
-                    total: 1,
-                    path:[
-                      {
-                        status: 0,
-                        line: [[121.467213, 31.21609], [121.466189, 31.215867]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "customer",
-                        location: [121.465867, 31.216324],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.466017, 31.216195],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.466211, 31.216512],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.466189, 31.215867],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  },
-
-                  {
-                    step: 7,
-                    type: 1,
-                    total: 3,
-                    path:[
-                      {
-                        status: 0,
-                        line: [[121.466189, 31.215867], [121.465867, 31.216324],[121.466189, 31.215867]]
-                      },
-
-                      {
-                        status: 0,
-                        line: [[121.466189, 31.215867], [121.466017, 31.216195],[121.466189, 31.215867]]
-                      },
-                      
-                      {
-                        status: 0,
-                        line: [[121.466189, 31.215867], [121.466211, 31.216512],[121.466189, 31.215867]]
-                      }
-                    ],
-                    point:[
-                      {
-                        type: "customer",
-                        location: [121.465867, 31.216324],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.466017, 31.216195],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.466211, 31.216512],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
-                      },
-                      {
-                        type: "customer",
-                        location: [121.466189, 31.215867],
-                        pic: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
-                      }
-                    ]
-                  }
-                ]
+  },
+  {
+    "id":2,
+    "step": 2,
+    "type": 2,
+    "total": 1,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.468629, 31.21441], [121.468174, 31.214268], [121.467859, 31.21479]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.467423, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467144, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467294, 31.214525],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467859, 31.21479],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id":3,
+    "step": 3,
+    "type": 1,
+    "total": 3,
+    "path": [
+      {
+        "status": 0,
+        "line":[[121.467859, 31.21479], [121.467423, 31.214727], [121.467859, 31.21479]]
+      },
+      {
+        "status": 0,
+        "line": [[121.467859, 31.21479], [121.467144, 31.214727], [121.467859, 31.21479]]
+      },
+      {
+        "status": 0,
+        "line": [[121.467859, 31.21479], [121.467294, 31.214525], [121.467859, 31.21479]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.467423, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467144, 31.214727],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467294, 31.214525],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467859, 31.21479],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id":4,
+    "step": 4,
+    "type": 2,
+    "total": 1,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.467859, 31.21479], [121.4676, 31.215218],[121.467433, 31.215594]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.467922, 31.215819],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467686, 31.215856],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467433, 31.215594],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "step": 5,
+    "type": 1,
+    "total": 2,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.467433, 31.215594], [121.467922, 31.215819],[121.467433, 31.215594]]
+      },
+      {
+        "status": 0,
+        "line": [[121.467433, 31.215594], [121.467686, 31.215856],[121.467433, 31.215594]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.467922, 31.215819],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467686, 31.215856],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.467433, 31.215594],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "step": 6,
+    "type": 2,
+    "total": 2,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.467433, 31.215594], [121.467213, 31.21609]]
+      }
+    ],
+    "point":[
+      {
+        "type": "store",
+        "location": [121.468193, 31.216344],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467796, 31.216271],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_xysj.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467433, 31.215594],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467213, 31.21609],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "step": 7,
+    "type": 1,
+    "total": 1,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.467213, 31.21609], [121.468193, 31.216344],[121.467796, 31.216271],[121.467213, 31.21609]]
+      }
+    ],
+    "point":[
+      {
+        "type": "store",
+        "location": [121.468193, 31.216344],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_mdl.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467796, 31.216271],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/pic_xysj.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467433, 31.215594],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      },
+      {
+        "type": "store",
+        "location": [121.467213, 31.21609],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "step": 8,
+    "type": 2,
+    "total": 1,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.467213, 31.21609], [121.466189, 31.215867]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.465867, 31.216324],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.466017, 31.216195],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.466211, 31.216512],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.466189, 31.215867],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "step": 9,
+    "type": 1,
+    "total": 3,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.466189, 31.215867], [121.465867, 31.216324],[121.466189, 31.215867]]
+      },
+      {
+        "status": 0,
+        "line": [[121.466189, 31.215867], [121.466017, 31.216195],[121.466189, 31.215867]]
+      },
+      
+      {
+        "status": 0,
+        "line": [[121.466189, 31.215867], [121.466211, 31.216512],[121.466189, 31.215867]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.465867, 31.216324],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.466017, 31.216195],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.466211, 31.216512],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.466189, 31.215867],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "step": 10,
+    "type": 2,
+    "total": 1,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.466189, 31.215867], [121.464821, 31.215535], [121.46464, 31.216264]]
+      },
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.46432, 31.215876],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.463677, 31.215802],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.46464, 31.216264],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "step": 11,
+    "type": 1,
+    "total": 2,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.46464, 31.216264], [121.46432, 31.215876], [121.46464, 31.216264]]
+      },
+      {
+        "status": 0,
+        "line": [[121.46464, 31.216264], [121.463677, 31.215802], [121.46464, 31.216264]]
+      },
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.46432, 31.215876],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.463677, 31.215802],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "step": 12,
+    "type": 2,
+    "total": 1,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.46464, 31.216264], [121.46458, 31.216507],[121.465827, 31.216904]]
+      },
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.465411, 31.217507],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.465304, 31.2172],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.465819, 31.217466],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.46464, 31.216264],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.465827, 31.216904],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd.png"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "step": 13,
+    "type": 1,
+    "total": 2,
+    "path":[
+      {
+        "status": 0,
+        "line": [[121.465827, 31.216904], [121.465411, 31.217507], [121.465827, 31.216904]]
+      },
+      {
+        "status": 0,
+        "line": [[121.465827, 31.216904], [121.465304, 31.2172], [121.465827, 31.216904]]
+      },
+      {
+        "status": 0,
+        "line": [[121.465827, 31.216904], [121.465819, 31.217466], [121.465827, 31.216904]]
+      }
+    ],
+    "point":[
+      {
+        "type": "customer",
+        "location": [121.465411, 31.217507],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.465304, 31.2172],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      },
+      {
+        "type": "customer",
+        "location": [121.465819, 31.217466],
+        "pic": "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_yellow.png"
+      }
+    ]
+  }
+]
             }
         },
         created(){
@@ -498,7 +694,8 @@
             // this.shopCart = this.cartList[this.shopId];
         },
         mounted(){
-
+            // runMap();
+            this.init();
             this.showLoading = false;
 
             lazyAMapApiLoaderInstance.load().then(() => {
@@ -509,9 +706,7 @@
                 center: [121.468812, 31.214569]
               });
 
-              
-
-              // this.goToMap(this.map,this.data,this.step,1);
+              // _this.goToMap(this.map,this.data,this.step,1);
 
             });
             
@@ -546,9 +741,42 @@
                 'INIT_BUYCART', 'SAVE_GEOHASH', 'CHOOSE_ADDRESS', 'NEED_VALIDATION', 'SAVE_CART_ID_SIG', 'SAVE_ORDER_PARAM', 'ORDER_SUCCESS', 'SAVE_SHOPID'
             ]),
 
-            goToMap(o,data,step,line){
+            init(){
               var _this = this;
+              setInterval(() => {
+                  getFromMap('MinMaxDeliveryStatus','user').then( res => {
+                    var json = JSON.parse(res.data);
+                    console.log(json.status);
 
+                    if(json.status === 'start'){
+
+                      // lat===31.214727 && lng ===
+                      var iconStore = new AMap.Icon({
+                        image: "http://opub24jup.bkt.clouddn.com/coos/boton_dwd_red.png",
+                        size: new AMap.Size(18, 18),
+                        imageSize: new AMap.Size(18, 18)
+                      });
+                      _this.userStatus = new AMap.Marker({
+                        map: _this.map,
+                        position: [121.467423, 31.214727],
+                        icon: iconStore,
+                        offset: new AMap.Pixel(-9, -9),
+                        zIndex: 100
+                      });
+                    } else if (json.status === 'finish') {
+                      if( _this.userStatus != null){
+                        _this.map.remove( _this.userStatus);
+                      }
+                    }
+                  })
+              },2000)
+            },
+
+            goToMap(o,data,step,line){
+
+              offerToQueue('MinMaxStep', '_this.goToMap(_this.map,_this.data,'+ step +',' + line + ');');
+
+              var _this = this;
               if(_this.car == null){
                 // 车
                 var iconCar = new AMap.Icon({
@@ -565,7 +793,6 @@
                   zIndex: 100
                 });
               }
-              
 
               // 商家
               if(data[step].point != undefined){
@@ -610,7 +837,7 @@
                 
                 _this.car.moveAlong(data[step].path[0].line, 80);
                 _this.car.on('movealong', function(e) {
-                  _this.step = step+1;
+                  _this.step = step + 1;
                 })
 
               }else if(data[step].type == 1){
@@ -648,13 +875,25 @@
 
                   document.querySelectorAll('.botton_right')[rbtNo].style.backgroundColor  = '#16D6B4';
                   document.querySelectorAll('.botton_right')[rbtNo].innerHTML = '已返回';
+
                   data[step].path[rbtNo].status = 2;
                   _this.rbtReady ++;
-                  console.log(_this.rbtReady);
+
+                  var lat = rbt.getPosition().lat;
+                  var lng = rbt.getPosition().lng;
+                  
                   if( _this.rbtReady == data[step].path.length){
                     _this.step = step+1;
                   }
-                })
+
+                });
+                rbt.on('moveend',function(e){
+                  var lat = rbt.getPosition().lat;
+                  var lng = rbt.getPosition().lng;
+                  if( lat===31.214727 && lng ===121.467423){
+                    putToMap('MinMaxDeliveryStatus','user',{ "status" : "finish" });
+                  }
+                });
                 rbt.moveAlong(data[step].path[rbtNo].line, 80);
                 _this.robot.push(rbt);
               }

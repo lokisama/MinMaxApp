@@ -13,7 +13,7 @@
                 </section>
             </section>
 
-            <router-link :to='{path: "/confirmOrder/chooseAddress", query: {id: checkoutData.cart.id, sig: checkoutData.sig}}' class="address_container">
+            <router-link  class="address_container">
                 <div class="address_empty_left">
                     
                     
